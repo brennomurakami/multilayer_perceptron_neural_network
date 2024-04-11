@@ -16,7 +16,7 @@ def read_excel(file_path, percent_of_training):
 
     data = []
 
-    # Capturing data
+    # Capturing dat
     for row_index, row in enumerate(ws.iter_rows(values_only=True), start=1):
         # ignoring header
         # Size / Weight / Sweetness / Crunchiness / Juiciness / Ripeness / Acidity
