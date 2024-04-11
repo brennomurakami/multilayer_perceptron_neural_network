@@ -3,7 +3,7 @@ import random
 import numpy as np
 
 
-def percent_training():
+def define_percent_training():
     percent_train = float(input("Enter percent for training (just numbers):"))
     if percent_train > 1:
         percent_train = percent_train / 100
@@ -52,7 +52,7 @@ def read_excel(file_path, percent_of_training):
 
 
 # defining percent training
-percent_training = percent_training()
+percent_training = define_percent_training()
 
 # setting data path
 filename = "/home/breno/PycharmProjects/multipercepctron/multilayer_perceptron_neural_network/data/apple_quality.xlsx"
