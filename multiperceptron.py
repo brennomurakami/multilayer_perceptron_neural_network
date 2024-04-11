@@ -1,6 +1,19 @@
 import openpyxl
 import random
 import numpy as np
+import pandas as pd
+import matplotlib
+from matplotlib import pyplot as plt
+import seaborn as sns
+import tempfile
+import os
+# Preset Matplotlib figure sizes.
+matplotlib.rcParams['figure.figsize'] = [9, 6]
+import tensorflow as tf
+import tensorflow_datasets as tfds
+print(tf.__version__)
+# Set random seed for reproducible results
+tf.random.set_seed(22)
 
 
 def define_percent_training():
