@@ -8,6 +8,7 @@ matplotlib.rcParams['figure.figsize'] = [9, 6]
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
+import time
 
 
 # function not working
@@ -111,15 +112,15 @@ def compile_model(model):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 
-def train_model(model, x_train, y_train, x_test, y_test, epochs=150, batch_size=32):
+def train_model(model, x_train, y_train, x_test, y_test, epochs, batch_size=32):
     history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, validation_data=(x_test, y_test))
     return history
 
 
 def evaluate_model(model, x_test, y_test):
     loss, accuracy = model.evaluate(x_test, y_test)
-    print("Test Loss:", loss)
-    print("Test Accuracy:", accuracy)
+    print("Test Loss:", loss*100)
+    print("Test Accuracy:", accuracy*100)
 
 
 def plot_loss(history):
@@ -153,6 +154,10 @@ def plot_confusion_matrix(y_true, y_pred):
     plt.ylabel('True labels')
     plt.title('Confusion Matrix')
     plt.show()
+
+
+def get_num_epochs():
+    return int(input("Enter the number of epochs: "))
 
 
 # defining percent training
@@ -201,17 +206,31 @@ input_size = len(x_train[0])  # Tamanho da entrada
 hidden_layer_sizes = [64, 32]  # Número de neurônios em cada camada oculta
 output_size = 1               # Tamanho da saída (problema de classificação binária)
 
-# 1. Construir o Modelo
+# Construir o Modelo
 mlp_model = build_model(input_size, hidden_layer_sizes, output_size)
 
-# 2. Compilar o Modelo
+# Compilar o Modelo
 compile_model(mlp_model)
 
-# 3. Treinar o Modelo
-history = train_model(mlp_model, x_train, y_train, x_test, y_test)
+num_epochs = get_num_epochs()
 
-# 4. Avaliar o Modelo
+# Treinar o Modelo
+start_training_time = time.time()
+history = train_model(mlp_model, x_train, y_train, x_test, y_test, num_epochs)
+end_training_time = time.time()
+training_time = end_training_time - start_training_time
+print("Training Time:", training_time, "seconds")
+
+# Avaliar o Modelo
 evaluate_model(mlp_model, x_test, y_test)
+
+# Início do tempo para um único teste
+start_test_time = time.time()
+loss, accuracy = mlp_model.evaluate(x_test, y_test)
+# Fim do tempo para um único teste
+end_test_time = time.time()
+test_time = end_test_time - start_test_time
+print("Time for a Single Test:", test_time, "seconds")
 
 # Gráfico para o loss
 plot_loss(history)
